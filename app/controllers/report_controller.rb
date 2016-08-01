@@ -5,14 +5,12 @@ class ReportController < ApplicationController
   
   def new
     
-    bar = Barbary.new
-    bar.x = params[:input_x]
+    bar= Barbary.new
+    bar.x= params[:input_x]
     bar.y = params[:input_y]
-    @barbary_x=bar.x
-    @barbary_y=bar.y
-    
+    @bar_data = bar
     bar.save
     
-    
   end
+
 end
