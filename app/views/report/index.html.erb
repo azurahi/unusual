@@ -19,7 +19,6 @@ var menuLayer = $('<div style="position:absolute;z-index:10000;background-color:
 
 map.getPanes().floatPane.appendChild(menuLayer[0]);
 
-
 <% @barbaries.each do |bar| %>
 var marker_bar = new naver.maps.Marker({
     position: new naver.maps.LatLng(<%= bar.x %>,<%= bar.y %>),

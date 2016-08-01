@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
-  root 'map#index'
+  get 'report/index'
+
+  root 'report#index'
 
   devise_for :users
   # root 'home#index'
