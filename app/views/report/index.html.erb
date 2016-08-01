@@ -20,9 +20,11 @@ var menuLayer = $('<div style="position:absolute;z-index:10000;background-color:
 map.getPanes().floatPane.appendChild(menuLayer[0]);
 
 <% @barbaries.each do |bar| %>
+<% if bar.x||bar.y != nil %>
 var marker_bar = new naver.maps.Marker({
     position: new naver.maps.LatLng(<%= bar.x %>,<%= bar.y %>),
     map: map});
+    <% end %>
 <% end %>
 
     
@@ -30,12 +32,22 @@ var markerList = [marker_bar];
 
 
 naver.maps.Event.addListener(map, 'click', function(e) {
-    var marker = new naver.maps.Marker({
-        position: e.coord,
-        map: map
-    });
-
-    markerList.push(marker);
+    
+    if (e.coord !== null)
+             {
+                $.ajax({
+                  type: 'POST',
+                  url: '/report',
+                  data: {input_x : e.coord.y, input_y : e.coord.x},
+                  dataType: 'json'
+                });
+             }
+            else {
+             setTimeout(function(){ alert("Hello"); }, 2000);
+                }
+                
+    location.href="/report";
+    
 });
 
 naver.maps.Event.addListener(map, 'keydown', function(e) {

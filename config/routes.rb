@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
-  get 'report/index'
-
+  post '/report' => 'report#new'
+  get '/report' => 'report#new'
   root 'report#index'
 
   devise_for :users
