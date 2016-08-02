@@ -32,7 +32,7 @@ gem 'simple_form'
 
 gem 'omniauth-naver'
 
-gem 'font-awesome-rails', '~> 4.6', '>= 4.6.3.1'
+gem 'font-awesome-rails'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
