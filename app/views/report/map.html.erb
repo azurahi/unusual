@@ -1,4 +1,4 @@
-<div id="section-topbar" class>
+<div id="section-topbar">
 	<div id="topbar-inner">
 		<div class="container">
 			<div class="row">
@@ -19,17 +19,17 @@
 	</div><!--/ #topbar-inner -->
 </div><!--/ #section-topbar -->
 
-<div id="map" class="map_container col-md-12 col-xs-12 col-sm-12"></div>
+<div id="map" class="map_container"></div>
 
 <script>
 var map = new naver.maps.Map('map', mapOptions);
 var mapOptions = {
     center: new naver.maps.LatLng(37.3595704, 127.105399), //지도의 초기 중심 좌표
-    zoom: 13, //지도의 초기 줌 레벨
+    zoom: 12, //지도의 초기 줌 레벨
     minZoom: 1, //지도의 최소 줌 레벨
-    scaleControl: true,
-    logoControl: true,
-    mapDataControl: true,
+    scaleControl: false,
+    logoControl: false,
+    mapDataControl: false,
     zoomControl: true, //줌 컨트롤의 표시 여부
     zoomControlOptions: { //줌 컨트롤의 옵션
     position: naver.maps.Position.TOP_RIGHT
@@ -41,17 +41,51 @@ var menuLayer = $('<div style="position:absolute;z-index:10000;background-color:
 map.getPanes().floatPane.appendChild(menuLayer[0]);
 
 
-<% @barbaries.each do |bar| %>
-<% if bar.x||bar.y != nil %>
-var marker_bar = new naver.maps.Marker({
-    position: new naver.maps.LatLng(<%= bar.x %>,<%= bar.y %>),
-    map: map});
-    <% end %>
-<% end %>
+//post method
 
-    
-var markerList = [marker_bar];
+function post_to_url(path, params, method) {
+    method = method || "post"; // Set method to post by default if not specified.
 
+    // The rest of this code assumes you are not using a library.
+    // It can be made less wordy if you use one.
+    var form = document.createElement("form");
+    form.setAttribute("method", method);
+    form.setAttribute("action", path);
+
+    for(var key in params) {
+        if(params.hasOwnProperty(key)) {
+            var hiddenField = document.createElement("input");
+            hiddenField.setAttribute("type", "hidden");
+            hiddenField.setAttribute("name", key);
+            hiddenField.setAttribute("value", params[key]);
+
+            form.appendChild(hiddenField);
+         }
+    }
+
+    document.body.appendChild(form);
+    form.submit();
+}
+
+
+naver.maps.Event.addListener(map, 'click', function(e) {
+
+    // if (e.coord !== null)
+    //          {
+    //             $.ajax({
+    //               type: 'POST',
+    //               url: '/report/new',
+    //               data: ,
+    //               dataType: 'json'
+    //             });
+    //          }
+    //         else {
+    //          setTimeout(function(){ alert("Hello"); }, 2000);
+    //             }
+                
+    post_to_url('/report', {input_x : e.coord.y, input_y : e.coord.x})
+
+});
 
 naver.maps.Event.addListener(map, 'keydown', function(e) {
     var keyboardEvent = e.keyboardEvent,
@@ -199,20 +233,27 @@ $("#controls").on("click", function(e) {
 
 $("#interaction, #tile-transition, #controls").addClass("control-on");
 
-//GPS 중심 map location
-
 function onSuccessGeolocation(position) {
     var location = new naver.maps.LatLng(position.coords.latitude,
                                          position.coords.longitude);
 
     map.setCenter(location); // 얻은 좌표를 지도의 중심으로 설정합니다.
-    map.setZoom(12); // 지도의 줌 레벨을 변경합니다.
+    map.setZoom(10); // 지도의 줌 레벨을 변경합니다.
 
+    infowindow.setContent('<div style="padding:20px;">' +
+        'latitude: '+ location.lat() +'<br />' +
+        'longitude: '+ location.lng() +'</div>');
+
+    infowindow.open(map, location);
 }
 
 function onErrorGeolocation() {
     var center = map.getCenter();
 
+    infowindow.setContent('<div style="padding:20px;">' +
+        '<h5 style="margin-bottom:5px;color:#f00;">Geolocation failed!</h5>'+ "latitude: "+ center.lat() +"<br />longitude: "+ center.lng() +'</div>');
+
+    infowindow.open(map, center);
 }
 
 $(window).on("load", function() {
@@ -221,6 +262,8 @@ $(window).on("load", function() {
     } else {
         var center = map.getCenter();
 
+        infowindow.setContent('<div style="padding:20px;"><h5 style="margin-bottom:5px;color:#f00;">Geolocation not supported</h5>'+ "latitude: "+ center.lat() +"<br />longitude: "+ center.lng() +'</div>');
+        infowindow.open(map, center);
     }
 });
 

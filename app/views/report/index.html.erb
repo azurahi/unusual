@@ -1,4 +1,4 @@
-<div id="section-topbar">
+<div id="section-topbar" class>
 	<div id="topbar-inner">
 		<div class="container">
 			<div class="row">
@@ -19,264 +19,50 @@
 	</div><!--/ #topbar-inner -->
 </div><!--/ #section-topbar -->
 
-<div id="map" style="width:100%;height:400px;"></div>
-
-<script>
-var map = new naver.maps.Map('map', mapOptions);
-var mapOptions = {
-    center: new naver.maps.LatLng(37.3595704, 127.105399), //지도의 초기 중심 좌표
-    zoom: 12, //지도의 초기 줌 레벨
-    minZoom: 1, //지도의 최소 줌 레벨
-    scaleControl: false,
-    logoControl: false,
-    mapDataControl: false,
-    zoomControl: true, //줌 컨트롤의 표시 여부
-    zoomControlOptions: { //줌 컨트롤의 옵션
-    position: naver.maps.Position.TOP_RIGHT
-}};
-
-//marker option
-var menuLayer = $('<div style="position:absolute;z-index:10000;background-color:#fff;border:solid 1px #333;padding:10px;display:none;"></div>');
-
-map.getPanes().floatPane.appendChild(menuLayer[0]);
-
-<% @barbaries.each do |bar| %>
-<% if bar.x||bar.y != nil %>
-var marker_bar = new naver.maps.Marker({
-    position: new naver.maps.LatLng(<%= bar.x %>,<%= bar.y %>),
-    map: map});
-    <% end %>
-<% end %>
-
-    
-var markerList = [marker_bar];
-
-
-//post method
-
-function post_to_url(path, params, method) {
-    method = method || "post"; // Set method to post by default if not specified.
-
-    // The rest of this code assumes you are not using a library.
-    // It can be made less wordy if you use one.
-    var form = document.createElement("form");
-    form.setAttribute("method", method);
-    form.setAttribute("action", path);
-
-    for(var key in params) {
-        if(params.hasOwnProperty(key)) {
-            var hiddenField = document.createElement("input");
-            hiddenField.setAttribute("type", "hidden");
-            hiddenField.setAttribute("name", key);
-            hiddenField.setAttribute("value", params[key]);
-
-            form.appendChild(hiddenField);
-         }
-    }
-
-    document.body.appendChild(form);
-    form.submit();
-}
-
-
-naver.maps.Event.addListener(map, 'click', function(e) {
-
-    // if (e.coord !== null)
-    //          {
-    //             $.ajax({
-    //               type: 'POST',
-    //               url: '/report/new',
-    //               data: ,
-    //               dataType: 'json'
-    //             });
-    //          }
-    //         else {
-    //          setTimeout(function(){ alert("Hello"); }, 2000);
-    //             }
-                
-    post_to_url('/report', {input_x : e.coord.y, input_y : e.coord.x})
-
-});
-
-naver.maps.Event.addListener(map, 'keydown', function(e) {
-    var keyboardEvent = e.keyboardEvent,
-        keyCode = keyboardEvent.keyCode || keyboardEvent.which;
-
-    var ESC = 27;
-
-    if (keyCode === ESC) {
-        keyboardEvent.preventDefault();
-
-        for (var i=0, ii=markerList.length; i<ii; i++) {
-            markerList[i].setMap(null);
-        }
-
-        markerList = [];
-
-        menuLayer.hide();
-    }
-});
-
-naver.maps.Event.addListener(map, 'mousedown', function(e) {
-    menuLayer.hide();
-});
-
-naver.maps.Event.addListener(map, 'rightclick', function(e) {
-    var coordHtml = 'Coord: '+ e.coord +'<br />Point: '+ e.point +'<br />Offset: '+ e.offset;
-
-    menuLayer.show().css({
-        left: e.offset.x,
-        top: e.offset.y
-    }).html(coordHtml);
-});
-
-
-
-
-
-
-
-//setOptions 메서드를 통해 옵션을 조정할 수도 있습니다.
-map.setOptions("mapTypeControl", true); //지도 유형 컨트롤의 표시 여부
-
-
-// 지도 인터랙션 옵션
-$("#interaction").on("click", function(e) {
-    e.preventDefault();
-
-    if (map.getOptions("draggable")) {
-        map.setOptions({ //지도 인터랙션 끄기
-            draggable: false,
-            pinchZoom: false,
-            scrollWheel: false,
-            keyboardShortcuts: false,
-            disableDoubleTapZoom: true,
-            disableDoubleClickZoom: true,
-            disableTwoFingerTapZoom: true
-        });
-
-        $(this).removeClass("control-on");
-    } else {
-        map.setOptions({ //지도 인터랙션 켜기
-            draggable: true,
-            pinchZoom: true,
-            scrollWheel: true,
-            keyboardShortcuts: true,
-            disableDoubleTapZoom: false,
-            disableDoubleClickZoom: false,
-            disableTwoFingerTapZoom: false
-        });
-
-        $(this).addClass("control-on");
-    }
-});
-
-// 관성 드래깅 옵션
-$("#kinetic").on("click", function(e) {
-    e.preventDefault();
-
-    if (map.getOptions("disableKineticPan")) {
-        map.setOptions("disableKineticPan", false); //관성 드래깅 켜기
-        $(this).addClass("control-on");
-    } else {
-        map.setOptions("disableKineticPan", true); //관성 드래깅 끄기
-        $(this).removeClass("control-on");
-    }
-});
-
-// 타일 fadeIn 효과
-$("#tile-transition").on("click", function(e) {
-    e.preventDefault();
-
-    if (map.getOptions("tileTransition")) {
-        map.setOptions("tileTransition", false); //타일 fadeIn 효과 끄기
-
-        $(this).removeClass("control-on");
-    } else {
-        map.setOptions("tileTransition", true); //타일 fadeIn 효과 켜기
-        $(this).addClass("control-on");
-    }
-});
-
-// min/max 줌 레벨
-$("#min-max-zoom").on("click", function(e) {
-    e.preventDefault();
-
-    if (map.getOptions("minZoom") === 10) {
-        map.setOptions({
-            minZoom: 1,
-            maxZoom: 14
-        });
-        $(this).val(this.name + ': 1 ~ 14');
-    } else {
-        map.setOptions({
-            minZoom: 10,
-            maxZoom: 12
-        });
-        $(this).val(this.name + ': 10 ~ 12');
-    }
-});
-
-//지도 컨트롤
-$("#controls").on("click", function(e) {
-    e.preventDefault();
-
-    if (map.getOptions("scaleControl")) {
-        map.setOptions({ //모든 지도 컨트롤 숨기기
-            scaleControl: false,
-            logoControl: false,
-            mapDataControl: false,
-            zoomControl: false,
-            mapTypeControl: false
-        });
-        $(this).removeClass('control-on');
-    } else {
-        map.setOptions({ //모든 지도 컨트롤 보이기
-            scaleControl: true,
-            logoControl: true,
-            mapDataControl: true,
-            zoomControl: true,
-            mapTypeControl: true
-        });
-        $(this).addClass('control-on');
-    }
-});
-
-$("#interaction, #tile-transition, #controls").addClass("control-on");
-
-function onSuccessGeolocation(position) {
-    var location = new naver.maps.LatLng(position.coords.latitude,
-                                         position.coords.longitude);
-
-    map.setCenter(location); // 얻은 좌표를 지도의 중심으로 설정합니다.
-    map.setZoom(10); // 지도의 줌 레벨을 변경합니다.
-
-    infowindow.setContent('<div style="padding:20px;">' +
-        'latitude: '+ location.lat() +'<br />' +
-        'longitude: '+ location.lng() +'</div>');
-
-    infowindow.open(map, location);
-}
-
-function onErrorGeolocation() {
-    var center = map.getCenter();
-
-    infowindow.setContent('<div style="padding:20px;">' +
-        '<h5 style="margin-bottom:5px;color:#f00;">Geolocation failed!</h5>'+ "latitude: "+ center.lat() +"<br />longitude: "+ center.lng() +'</div>');
-
-    infowindow.open(map, center);
-}
-
-$(window).on("load", function() {
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(onSuccessGeolocation, onErrorGeolocation);
-    } else {
-        var center = map.getCenter();
-
-        infowindow.setContent('<div style="padding:20px;"><h5 style="margin-bottom:5px;color:#f00;">Geolocation not supported</h5>'+ "latitude: "+ center.lat() +"<br />longitude: "+ center.lng() +'</div>');
-        infowindow.open(map, center);
-    }
-});
-
-</script>
-
+<!-- Top content -->
+<div class="top-content">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12 form-box">
+                	<div class="form-top">
+                		<div class="form-top-left">
+                			<h3>제보를 받습니다!</h3>
+                    		<p>이 정보들은 익명성이 보장됩니다. </p>
+                		</div>
+                		<div class="form-top-right">
+                			<i class="fa fa-user-secret"></i>
+                		</div>
+                    </div>
+                    <div class="form-bottom">
+	                    <form role="form" action="/write" method="post" class="registration-form">
+	                        <input type="hidden" value="<%=@bar.id%>" name="id_of_input">
+	                        <div class="form-group">
+	                            <label class="sr-only" for="form-select">범죄 유형</label>
+    	                        <select class="form-control" name="form-select" id="input_type">
+                                  <option value="1">바바리맨 신고</option>
+                                  <option value="2">고성방가 신고</option>
+                                  <option value="3">불량배 신고</option>
+                                  <option value="4">맛있는 밥 헤헤</option>
+                                  <option value="5">기타 범죄 신고</option>
+                                </select>
+                            </div>
+	                    	<div class="form-group">
+	                    		<label class="sr-only" for="form-first-name">제보 제목</label>
+	                        	<input type="text" name="form-first-name" placeholder="제목을 적어주세요" class="form-first-name form-control" id="input_title">
+	                        </div>
+	                        <div class="form-group">
+	                        	<label class="sr-only" for="form-last-name">상세 정보</label>
+	                        	<textarea type="text" name="form-last-name" placeholder="내용을 적어주세요" class="form-last-name form-control" id="input_message">
+	                        	</textarea>
+	                        </div>
+	                        <div class="form-group">
+	                        	<label class="sr-only" for="form-password">비밀번호</label>
+	                        	<input type="password" name="form-password" placeholder="비밀번호" class="form-control" id="input_password">
+	                        </div>
+	                        <button type="submit" class="btn">Give it to me!</button>
+	                    </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+</div>
