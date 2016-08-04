@@ -4,9 +4,9 @@
 			<div class="row">
 				<div class="dropdown">
 					<ul id="nav" class="nav">
-						<li class="menu-item"><a class="smoothScroll" href="/" title="About"><i class="fa fa-home"></i></a></li>
-						<li class="menu-item"><a class="smoothScroll" href="/map" title="Resume"><i class="fa fa-map-o"></i></a></li>
-						<li class="menu-item"><a class="smoothScroll" href="/new" title="Works"><i class="fa fa-map-marker"></i></a></li>
+						<li class="menu-item"><a class="smoothScroll" href="/" title="홈으로"><i class="fa fa-home"></i></a></li>
+						<li class="menu-item"><a class="smoothScroll" href="/map" title="지도보기"><i class="fa fa-map-o"></i></a></li>
+						<li class="menu-item"><a class="smoothScroll" href="/new" title="신고하기"><i class="fa fa-map-marker"></i></a></li>
 						<li class="menu-item"><a class="smoothScroll" href="#contact" title="Contact"><i class="icon-envelope"></i></a></li>
 					</ul><!--/ uL#nav -->
 				</div><!-- /.dropdown -->
@@ -35,10 +35,11 @@
                     </div>
                     <div class="form-bottom">
 	                    <form role="form" action="/write" method="post" class="registration-form">
-	                        <input type="hidden" value="<%=@bar.id%>" name="id_of_input">
+	                        <input type="text" value="<%=@bar_x%>" name="input_x">
+	                        <input type="text" value="<%=@bar_y%>" name="input_y">
 	                        <div class="form-group">
 	                            <label class="sr-only" for="form-select">범죄 유형</label>
-    	                        <select class="form-control" name="form-select" id="input_type">
+    	                        <select class="form-control" name="input_crime">
                                   <option value="1">바바리맨 신고</option>
                                   <option value="2">고성방가 신고</option>
                                   <option value="3">불량배 신고</option>
@@ -48,18 +49,17 @@
                             </div>
 	                    	<div class="form-group">
 	                    		<label class="sr-only" for="form-first-name">제보 제목</label>
-	                        	<input type="text" name="form-first-name" placeholder="제목을 적어주세요" class="form-first-name form-control" id="input_title">
+	                        	<input type="text" name="input_title" placeholder="제목을 적어주세요" class="form-first-name form-control">
 	                        </div>
 	                        <div class="form-group">
 	                        	<label class="sr-only" for="form-last-name">상세 정보</label>
-	                        	<textarea type="text" name="form-last-name" placeholder="내용을 적어주세요" class="form-last-name form-control" id="input_message">
-	                        	</textarea>
+	                        	<textarea class="form-control" type="text" name="input_message" placeholder="내용을 적어주세요" class="form-last-name form-control" id="input_message"></textarea>
 	                        </div>
 	                        <div class="form-group">
 	                        	<label class="sr-only" for="form-password">비밀번호</label>
-	                        	<input type="password" name="form-password" placeholder="비밀번호" class="form-control" id="input_password">
+	                        	<input type="password" name="input_password" placeholder="비밀번호" class="form-control">
 	                        </div>
-	                        <button type="submit" class="btn">Give it to me!</button>
+	                        <button type="submit" class="btn">제보하기</button>
 	                    </form>
                     </div>
                 </div>

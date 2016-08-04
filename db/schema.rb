@@ -18,7 +18,7 @@ ActiveRecord::Schema.define(version: 20160801054229) do
     t.float    "y"
     t.string   "title"
     t.text     "message"
-    t.integer  "type"
+    t.integer  "crime"
     t.integer  "password"
     t.integer  "barbary_id"
     t.datetime "created_at", null: false

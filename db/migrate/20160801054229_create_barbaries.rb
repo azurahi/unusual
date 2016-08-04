@@ -6,7 +6,7 @@ class CreateBarbaries < ActiveRecord::Migration
       t.float :y
       t.string :title
       t.text :message
-      t.integer :type
+      t.integer :crime
       t.integer :password
       t.integer :barbary_id
       

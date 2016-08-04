@@ -4,9 +4,9 @@
 			<div class="row">
 				<div class="dropdown">
 					<ul id="nav" class="nav">
-						<li class="menu-item"><a class="smoothScroll" href="/" title="About"><i class="fa fa-home"></i></a></li>
-						<li class="menu-item"><a class="smoothScroll" href="/map" title="Resume"><i class="fa fa-map-o"></i></a></li>
-						<li class="menu-item"><a class="smoothScroll" href="/new" title="Works"><i class="fa fa-map-marker"></i></a></li>
+						<li class="menu-item"><a class="smoothScroll" href="/" title="홈으로"><i class="fa fa-home"></i></a></li>
+						<li class="menu-item"><a class="smoothScroll" href="/map" title="지도보기"><i class="fa fa-map-o"></i></a></li>
+						<li class="menu-item"><a class="smoothScroll" href="/new" title="신고하기"><i class="fa fa-map-marker"></i></a></li>
 						<li class="menu-item"><a class="smoothScroll" href="#contact" title="Contact"><i class="icon-envelope"></i></a></li>
 					</ul><!--/ uL#nav -->
 				</div><!-- /.dropdown -->
@@ -40,41 +40,62 @@ var menuLayer = $('<div style="position:absolute;z-index:10000;background-color:
 
 map.getPanes().floatPane.appendChild(menuLayer[0]);
 
+var markerList = [];
+var infowindowList =[];
 
 <% @barbaries.each do |bar| %>
 <% if bar.x||bar.y != nil %>
-var marker_bar = new naver.maps.Marker({
-    position: new naver.maps.LatLng(<%= bar.x %>,<%= bar.y %>),
-    map: map});
+
+    var marker_bar = new naver.maps.Marker({
+        position: new naver.maps.LatLng(<%= bar.x %>,<%= bar.y %>),
+        map: map});
+        
+    var contentString = [
+            '<div class="iw_inner">',
+            '   <h3> <%= bar.title %></h3>',
+            '   <p> <%= bar.message %> ',
+            '   </p>',
+            '</div>'
+        ].join('');
+    
+    var infowindow_bar = new naver.maps.InfoWindow({
+        content: contentString,
+        maxWidth: 140,
+        backgroundColor: "#eee",
+        // borderColor: "#2db400",
+        borderWidth: 5,
+        // anchorSize: new naver.maps.Size(30, 30),
+        // anchorSkew: true,
+        // anchorColor: "#eee",
+        // pixelOffset: new naver.maps.Point(20, -20)
+    });    
+        
+    markerList.push(marker_bar);
+    infowindowList.push(infowindow_bar);
+
     <% end %>
 <% end %>
 
-    
-var markerList = [marker_bar];
 
+// 해당 마커의 인덱스를 seq라는 클로저 변수로 저장하는 이벤트 핸들러를 반환합니다.
+function getClickHandler(seq) {
+    return function(e) {
+        var marker = markerList[seq],
+            infoWindow = infowindowList[seq];
 
-naver.maps.Event.addListener(map, 'keydown', function(e) {
-    var keyboardEvent = e.keyboardEvent,
-        keyCode = keyboardEvent.keyCode || keyboardEvent.which;
-
-    var ESC = 27;
-
-    if (keyCode === ESC) {
-        keyboardEvent.preventDefault();
-
-        for (var i=0, ii=markerList.length; i<ii; i++) {
-            markerList[i].setMap(null);
+        if (infoWindow.getMap()) {
+            infoWindow.close();
+        } else {
+            infoWindow.open(map, marker);
         }
-
-        markerList = [];
-
-        menuLayer.hide();
     }
-});
+}
 
-naver.maps.Event.addListener(map, 'mousedown', function(e) {
-    menuLayer.hide();
-});
+for (var i=0, ii=markerList.length; i<ii; i++) {
+    naver.maps.Event.addListener(markerList[i], 'click', getClickHandler(i));
+}
+
+
 
 naver.maps.Event.addListener(map, 'rightclick', function(e) {
     var coordHtml = 'Coord: '+ e.coord +'<br />Point: '+ e.point +'<br />Offset: '+ e.offset;
@@ -84,9 +105,6 @@ naver.maps.Event.addListener(map, 'rightclick', function(e) {
         top: e.offset.y
     }).html(coordHtml);
 });
-
-
-
 
 
 
@@ -223,6 +241,9 @@ $(window).on("load", function() {
 
     }
 });
+
+
+
 
 </script>
 
