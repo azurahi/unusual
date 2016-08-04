@@ -6,6 +6,9 @@ Rails.application.routes.draw do
   post '/write' => 'report#write'
   post '/report' => 'report#index'
   get '/test' => 'test#index'
+  get '/search' => 'map#search'
+  get '/sear' => 'search#index'
+
   root 'home#index'
 
   devise_for :users
