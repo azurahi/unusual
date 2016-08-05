@@ -35,15 +35,16 @@
                     </div>
                     <div class="form-bottom">
 	                    <form role="form" action="/write" method="post" class="registration-form">
+	                        <div>
 	                        <input type="hidden" value="<%=@bar_x%>" name="input_x">
 	                        <input type="hidden" value="<%=@bar_y%>" name="input_y">
 	                        <div class="form-group">
 	                            <label class="sr-only" for="form-select">범죄 유형</label>
     	                        <select class="form-control" name="input_crime">
                                   <option value="1">바바리맨 신고</option>
-                                  <option value="2">고성방가 신고</option>
-                                  <option value="3">불량배 신고</option>
-                                  <option value="4">기타 범죄 신고</option>
+                                  <option value="2">퍽치기 신고</option>
+                                  <option value="3">소매치기 신고</option>
+                                  <option value="4">기타 신고</option>
                                 </select>
                             </div>
 	                    	<div class="form-group">
@@ -59,6 +60,7 @@
 	                        	<input type="password" name="input_password" placeholder="비밀번호" class="form-control">
 	                        </div>
 	                        <button type="submit" class="btn">제보하기</button>
+	                        </div>
 	                    </form>
                     </div>
                 </div>

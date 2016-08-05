@@ -1,15 +1,69 @@
-<div id="section-topbar">
-	<div id="topbar-inner">
-		<div class="container">
-			<div class="row">
-				<div class="dropdown">
-					<ul id="nav" class="nav">
-						<li class="menu-item"><a class="smoothScroll" href="/" title="About"><i class="fa fa-home"></i></a></li>
-						<li class="menu-item"><a class="smoothScroll" href="/map" title="Resume"><i class="fa fa-map-o"></i></a></li>
-						<li class="menu-item"><a class="smoothScroll" href="/new" title="Works"><i class="fa fa-map-marker"></i></a></li>
-						<li class="menu-item"><a class="smoothScroll" href="#contact" title="Contact"><i class="icon-envelope"></i></a></li>
-					</ul><!--/ uL#nav -->
-				</div><!-- /.dropdown -->
+<div class="container">
+    <div id="section-topbar">
+    	<div id="topbar-inner">
+    		<div class="container">
+    			<div class="row">
+    				<div class="dropdown">
+    					<ul id="nav" class="nav">
+    						<li class="menu-item"><a class="smoothScroll" href="/" title="홈으로"><i class="fa fa-home"></i></br>홈으로</a></li>
+    						<li class="menu-item"><a class="smoothScroll" href="/map" title="지도보기"><i class="fa fa-map-marker"></i></br>지도보기</a></li>
+    						<li class="menu-item"><a class="smoothScroll" href="/new" title="신고하기"><i class="fa fa-pencil"></i></br>제보하기</a></li>
+    						<li class="menu-item"><a class="smoothScroll" href="#contact" title="Contact"><i class="fa fa-lightbulb-o"></i></br>밝은 길</a></li>
+    					</ul><!--/ uL#nav -->
+    				</div><!-- /.dropdown -->
+    
+    				<div class="clear"></div>
+    			</div><!--/.row -->
+    		</div><!--/.container -->
+    
+    		<div class="clear"></div>
+    	</div><!--/ #topbar-inner -->
+    </div><!--/ #section-topbar -->
+
+<div id="map" class="map_container"></div>
+
+
+<div id="section-topbar-bt" class="navbar navbar-default navbar-fixed-bottom">
+    	<div id="topbar-inner-bt">
+    		<div class="container">
+    			<div class="row">
+    				<div class="dropdown">
+    				    <!--<form id="search" action="#" method="post">-->
+            <!--                <div id="label"><label for="search-terms" id="search-label">search</label></div>-->
+            <!--                <div id="input"><input type="text" name="search-terms" id="search-terms" placeholder="Enter search terms..."></div>-->
+            <!--            </form>-->
+    					<ul id="nav" class="nav">
+    					    <li class="menu-item">
+    					    <div class="btn-group">
+    						  <a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#"><i class="fa fa-clock-o"></i></br>시간별</a>
+                              <!--<a class="btn btn-primary "  href="#">-->
+                              <!--  <span class="fa fa-caret-down" title="Toggle dropdown menu"></span>-->
+                              <!--</a>-->
+                              <ul class="dropdown-menu">
+                                <li><a href="#"><i class="fa fa-pencil fa-fw"></i> Edit</a></li>
+                                <li><a href="#"><i class="fa fa-trash-o fa-fw"></i> Delete</a></li>
+                                <li><a href="#"><i class="fa fa-ban fa-fw"></i> Ban</a></li>
+                              </ul>
+                            </div>
+                            </li>
+                            <li class="menu-item">
+    					    <div class="btn-group">
+    						  <a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#"><i class="fa fa-universal-access"></i></br>유형별</a>
+                              <!--<a class="btn btn-primary "  href="#">-->
+                              <!--  <span class="fa fa-caret-down" title="Toggle dropdown menu"></span>-->
+                              <!--</a>-->
+                              <ul class="dropdown-menu">
+                                <li><a href="#"><i class="fa fa-pencil fa-fw"></i> Edit</a></li>
+                                <li><a href="#"><i class="fa fa-trash-o fa-fw"></i> Delete</a></li>
+                                <li><a href="#"><i class="fa fa-ban fa-fw"></i> Ban</a></li>
+                                <li class="divider"></li>
+                                <li><a href="#"><i class="fa fa-unlock"></i> Make admin</a></li>
+                              </ul>
+                            </div>
+                            </li>
+    						<li class="menu-item"><a class="smoothScroll" href="#contact" title="Contact"><i class="fa fa-lightbulb-o"></i></br>밝은 길</a></li>
+    					</ul><!--/ uL#nav -->
+    				</div><!-- /.dropdown -->
 
 				<div class="clear"></div>
 			</div><!--/.row -->
@@ -18,9 +72,6 @@
 		<div class="clear"></div>
 	</div><!--/ #topbar-inner -->
 </div><!--/ #section-topbar -->
-
-<div id="map" class="map_container"></div>
-
 <script>
 var map = new naver.maps.Map('map', mapOptions);
 var mapOptions = {

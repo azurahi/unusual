@@ -33,75 +33,45 @@
   </div>
 </div>
 
-<!--footer -->
-<div id="footer">
-      <div class="container">
-            <div class="btn-group dropup">
-                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                    Dropup <span class="caret caret-up-map"></span>
-                </button>
-                <ul class="dropdown-menu drop-up" role="menu">
-                    <li><a href="#">Action</a></li>
-                    <li><a href="#">Another action</a></li>
-                    <li><a href="#">Something else here</a></li>
-                    <li class="divider"></li>
-                    <li><a href="#">Separated link</a></li>
-                </ul>
-            </div>
-            <div class="btn-group dropup">
-                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                    Dropup <span class="caret caret-up"></span>
-                </button>
-                <ul class="dropdown-menu drop-up" role="menu">
-                    <li><a href="#">Action</a></li>
-                    <li><a href="#">Another action</a></li>
-                    <li><a href="#">Something else here</a></li>
-                    <li class="divider"></li>
-                    <li><a href="#">Separated link</a></li>
-                </ul>
-            </div>
-            <div class="btn-group dropup">
-                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                    Dropup <span class="caret caret-up-map"></span>
-                </button>
-                <ul class="dropdown-menu drop-up" role="menu">
-                    <li><a href="#">Action</a></li>
-                    <li><a href="#">Another action</a></li>
-                    <li><a href="#">Something else here</a></li>
-                    <li class="divider"></li>
-                    <li><a href="#">Separated link</a></li>
-                </ul>
-            </div>
-            <div class="btn-group dropup">
-                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                    Dropup <span class="caret caret-up-map"></span>
-                </button>
-                <ul class="dropdown-menu drop-up" role="menu">
-                    <li><a href="#">Action</a></li>
-                    <li><a href="#">Another action</a></li>
-                    <li><a href="#">Something else here</a></li>
-                    <li class="divider"></li>
-                    <li><a href="#">Separated link</a></li>
-                </ul>
-            </div>
-      </div>
-    </div>
-    
-
 
 <div id="section-topbar-bt" class="navbar navbar-default navbar-fixed-bottom">
     	<div id="topbar-inner-bt">
     		<div class="container">
     			<div class="row">
     				<div class="dropdown">
-    				    <form id="search" action="#" method="post">
-                            <div id="label"><label for="search-terms" id="search-label">search</label></div>
-                            <div id="input"><input type="text" name="search-terms" id="search-terms" placeholder="Enter search terms..."></div>
-                        </form>
+    				    <!--<form id="search" action="#" method="post">-->
+            <!--                <div id="label"><label for="search-terms" id="search-label">search</label></div>-->
+            <!--                <div id="input"><input type="text" name="search-terms" id="search-terms" placeholder="Enter search terms..."></div>-->
+            <!--            </form>-->
     					<ul id="nav" class="nav">
-    						<li class="menu-item"><a class="smoothScroll" href="/" title="홈으로"><i class="fa fa-home"></i></br>홈으로</a></li>
-    						<li class="menu-item"><a class="smoothScroll" href="/map" title="지도보기"><i class="fa fa-map-marker"></i></br>지도보기</a></li>
-    						<li class="menu-item"><a class="smoothScroll" href="/new" title="신고하기"><i class="fa fa-pencil"></i></br>제보하기</a></li>
+    					    <li class="menu-item">
+    					    <div class="btn-group">
+    						  <a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#"><i class="fa fa-clock-o"></i></br>시간별</a>
+                              <!--<a class="btn btn-primary "  href="#">-->
+                              <!--  <span class="fa fa-caret-down" title="Toggle dropdown menu"></span>-->
+                              <!--</a>-->
+                              <ul class="dropdown-menu">
+                                <li><a href="#"><i class="fa fa-pencil fa-fw"></i> Edit</a></li>
+                                <li><a href="#"><i class="fa fa-trash-o fa-fw"></i> Delete</a></li>
+                                <li><a href="#"><i class="fa fa-ban fa-fw"></i> Ban</a></li>
+                              </ul>
+                            </div>
+                            </li>
+                            <li class="menu-item">
+    					    <div class="btn-group">
+    						  <a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#"><i class="fa fa-universal-access"></i></br>유형별</a>
+                              <!--<a class="btn btn-primary "  href="#">-->
+                              <!--  <span class="fa fa-caret-down" title="Toggle dropdown menu"></span>-->
+                              <!--</a>-->
+                              <ul class="dropdown-menu">
+                                <li><a href="#"><i class="fa fa-pencil fa-fw"></i> Edit</a></li>
+                                <li><a href="#"><i class="fa fa-trash-o fa-fw"></i> Delete</a></li>
+                                <li><a href="#"><i class="fa fa-ban fa-fw"></i> Ban</a></li>
+                                <li class="divider"></li>
+                                <li><a href="#"><i class="fa fa-unlock"></i> Make admin</a></li>
+                              </ul>
+                            </div>
+                            </li>
     						<li class="menu-item"><a class="smoothScroll" href="#contact" title="Contact"><i class="fa fa-lightbulb-o"></i></br>밝은 길</a></li>
     					</ul><!--/ uL#nav -->
     				</div><!-- /.dropdown -->
@@ -116,34 +86,7 @@
 
 
 <script>
-(function(window){
 
-    // get vars
-    var searchEl = document.querySelector("#input");
-    var labelEl = document.querySelector("#label");
-
-    // register clicks and toggle classes
-    labelEl.addEventListener("click",function(){
-        if (classie.has(searchEl,"focus")) {
-            classie.remove(searchEl,"focus");
-            classie.remove(labelEl,"active");
-        } else {
-            classie.add(searchEl,"focus");
-            classie.add(labelEl,"active");
-        }
-    });
-
-    // register clicks outisde search box, and toggle correct classes
-    document.addEventListener("click",function(e){
-        var clickedID = e.target.id;
-        if (clickedID != "search-terms" && clickedID != "search-label") {
-            if (classie.has(searchEl,"focus")) {
-                classie.remove(searchEl,"focus");
-                classie.remove(labelEl,"active");
-            }
-        }
-    });
-}(window));
 
 var map = new naver.maps.Map('map', mapOptions);
 var mapOptions = {
@@ -172,15 +115,12 @@ var infowindowList =[];
     var marker_bar = new naver.maps.Marker({
         position: new naver.maps.LatLng(<%= bar.x %>,<%= bar.y %>),
         map: map,
-        shape: {
-            coords: [11, 0, 9, 0, 6, 1, 4, 2, 2, 4,
-                    0, 8, 0, 12, 1, 14, 2, 16, 5, 19,
-                    5, 20, 6, 23, 8, 26, 9, 30, 9, 34,
-                    13, 34, 13, 30, 14, 26, 16, 23, 17, 20,
-                    17, 19, 20, 16, 21, 14, 22, 12, 22, 12,
-                    22, 8, 20, 4, 18, 2, 16, 1, 13, 0],
-            type: 'poly'
-        }
+        icon: {
+                url: "<%= asset_path( "#{bar.crime}.png") %>",
+                size: new naver.maps.Size(50, 52),
+                origin: new naver.maps.Point(0, 0),
+                anchor: new naver.maps.Point(25, 26)
+            }
     });
         
     var contentString = [
