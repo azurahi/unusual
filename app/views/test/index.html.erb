@@ -1,3 +1,236 @@
-<% @bar.each do |b| %>
-<p><%= b.id %><%= b.title %><%= b.message %><%= b.crime %></p>
-<% end %>
+<div id="section-topbar">
+	<div id="topbar-inner">
+		<div class="container">
+			<div class="row">
+				<div class="dropdown">
+					<ul id="nav" class="nav">
+						<li class="menu-item"><a class="smoothScroll" href="/" title="About"><i class="fa fa-home"></i></a></li>
+						<li class="menu-item"><a class="smoothScroll" href="/map" title="Resume"><i class="fa fa-map-o"></i></a></li>
+						<li class="menu-item"><a class="smoothScroll" href="/new" title="Works"><i class="fa fa-map-marker"></i></a></li>
+						<li class="menu-item"><a class="smoothScroll" href="#contact" title="Contact"><i class="icon-envelope"></i></a></li>
+					</ul><!--/ uL#nav -->
+				</div><!-- /.dropdown -->
+
+				<div class="clear"></div>
+			</div><!--/.row -->
+		</div><!--/.container -->
+
+		<div class="clear"></div>
+	</div><!--/ #topbar-inner -->
+</div><!--/ #section-topbar -->
+
+<div id="map" class="map_container"></div>
+
+<script>
+var map = new naver.maps.Map('map', mapOptions);
+var mapOptions = {
+    center: new naver.maps.LatLng(37.3595704, 127.105399), //지도의 초기 중심 좌표
+    zoom: 12, //지도의 초기 줌 레벨
+    minZoom: 1, //지도의 최소 줌 레벨
+    zoomControlOptions: { //줌 컨트롤의 옵션
+    position: naver.maps.Position.TOP_RIGHT
+}};
+
+map.setOptions("mapTypeControl", true);
+
+//marker option
+var menuLayer = $('<div style="position:absolute;z-index:10000;background-color:#fff;border:solid 1px #333;padding:10px;display:none;"></div>');
+
+map.getPanes().floatPane.appendChild(menuLayer[0]);
+
+
+//post method
+
+function post_to_url(path, params, method) {
+    method = method || "post"; // Set method to post by default if not specified.
+
+    // The rest of this code assumes you are not using a library.
+    // It can be made less wordy if you use one.
+    var form = document.createElement("form");
+    form.setAttribute("method", method);
+    form.setAttribute("action", path);
+
+    for(var key in params) {
+        if(params.hasOwnProperty(key)) {
+            var hiddenField = document.createElement("input");
+            hiddenField.setAttribute("type", "hidden");
+            hiddenField.setAttribute("name", key);
+            hiddenField.setAttribute("value", params[key]);
+
+            form.appendChild(hiddenField);
+         }
+    }
+
+    document.body.appendChild(form);
+    form.submit();
+}
+
+naver.maps.Event.addListener(map, 'click', function(e) {
+    $.ajax({
+        url: 'http://www.safemap.go.kr/sm/commonapis.do?apikey=KJB2458F-KJB2-KJB2-KJB2-KJB2458FZJ ',
+        type: 'POST',
+        data: { layername: 'A2SM_CMMNPOI', name: '가로등', style: 'A2SM_CmmnPoi_7' },
+        dataType: 'image/png',
+        success: function () {
+            alert("data");
+        },
+    });
+
+});
+
+
+naver.maps.Event.addListener(map, 'mousedown', function(e) {
+    menuLayer.hide();
+});
+
+naver.maps.Event.addListener(map, 'rightclick', function(e) {
+    var coordHtml = 'Coord: '+ e.coord +'<br />Point: '+ e.point +'<br />Offset: '+ e.offset;
+
+    menuLayer.show().css({
+        left: e.offset.x,
+        top: e.offset.y
+    }).html(coordHtml);
+
+});
+
+
+// 지도 인터랙션 옵션
+$("#interaction").on("click", function(e) {
+    e.preventDefault();
+
+    if (map.getOptions("draggable")) {
+        map.setOptions({ //지도 인터랙션 끄기
+            draggable: false,
+            pinchZoom: false,
+            scrollWheel: false,
+            keyboardShortcuts: false,
+            disableDoubleTapZoom: true,
+            disableDoubleClickZoom: true,
+            disableTwoFingerTapZoom: true
+        });
+
+        $(this).removeClass("control-on");
+    } else {
+        map.setOptions({ //지도 인터랙션 켜기
+            draggable: true,
+            pinchZoom: true,
+            scrollWheel: true,
+            keyboardShortcuts: true,
+            disableDoubleTapZoom: false,
+            disableDoubleClickZoom: false,
+            disableTwoFingerTapZoom: false
+        });
+
+        $(this).addClass("control-on");
+    }
+});
+
+// 관성 드래깅 옵션
+$("#kinetic").on("click", function(e) {
+    e.preventDefault();
+
+    if (map.getOptions("disableKineticPan")) {
+        map.setOptions("disableKineticPan", false); //관성 드래깅 켜기
+        $(this).addClass("control-on");
+    } else {
+        map.setOptions("disableKineticPan", true); //관성 드래깅 끄기
+        $(this).removeClass("control-on");
+    }
+});
+
+// 타일 fadeIn 효과
+$("#tile-transition").on("click", function(e) {
+    e.preventDefault();
+
+    if (map.getOptions("tileTransition")) {
+        map.setOptions("tileTransition", false); //타일 fadeIn 효과 끄기
+
+        $(this).removeClass("control-on");
+    } else {
+        map.setOptions("tileTransition", true); //타일 fadeIn 효과 켜기
+        $(this).addClass("control-on");
+    }
+});
+
+// min/max 줌 레벨
+$("#min-max-zoom").on("click", function(e) {
+    e.preventDefault();
+
+    if (map.getOptions("minZoom") === 10) {
+        map.setOptions({
+            minZoom: 1,
+            maxZoom: 14
+        });
+        $(this).val(this.name + ': 1 ~ 14');
+    } else {
+        map.setOptions({
+            minZoom: 10,
+            maxZoom: 12
+        });
+        $(this).val(this.name + ': 10 ~ 12');
+    }
+});
+
+//지도 컨트롤
+$("#controls").on("click", function(e) {
+    e.preventDefault();
+
+    if (map.getOptions("scaleControl")) {
+        map.setOptions({ //모든 지도 컨트롤 숨기기
+            scaleControl: false,
+            logoControl: false,
+            mapDataControl: false,
+            zoomControl: false,
+            mapTypeControl: false
+        });
+        $(this).removeClass('control-on');
+    } else {
+        map.setOptions({ //모든 지도 컨트롤 보이기
+            scaleControl: true,
+            logoControl: true,
+            mapDataControl: true,
+            zoomControl: true,
+            mapTypeControl: true
+        });
+        $(this).addClass('control-on');
+    }
+});
+
+$("#interaction, #tile-transition, #controls").addClass("control-on");
+
+function onSuccessGeolocation(position) {
+    var location = new naver.maps.LatLng(position.coords.latitude,
+                                         position.coords.longitude);
+
+    map.setCenter(location); // 얻은 좌표를 지도의 중심으로 설정합니다.
+    map.setZoom(12); // 지도의 줌 레벨을 변경합니다.
+
+    infowindow.setContent('<div style="padding:20px;">' +
+        'latitude: '+ location.lat() +'<br />' +
+        'longitude: '+ location.lng() +'</div>');
+
+    infowindow.open(map, location);
+}
+
+function onErrorGeolocation() {
+    var center = map.getCenter();
+
+    infowindow.setContent('<div style="padding:20px;">' +
+        '<h5 style="margin-bottom:5px;color:#f00;">Geolocation failed!</h5>'+ "latitude: "+ center.lat() +"<br />longitude: "+ center.lng() +'</div>');
+
+    infowindow.open(map, center);
+}
+
+$(window).on("load", function() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(onSuccessGeolocation, onErrorGeolocation);
+    } else {
+        var center = map.getCenter();
+
+        infowindow.setContent('<div style="padding:20px;"><h5 style="margin-bottom:5px;color:#f00;">Geolocation not supported</h5>'+ "latitude: "+ center.lat() +"<br />longitude: "+ center.lng() +'</div>');
+        infowindow.open(map, center);
+    }
+});
+
+</script>
+

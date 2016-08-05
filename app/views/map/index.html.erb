@@ -22,12 +22,13 @@
 <div id="map" class="map_container col-md-12 col-xs-12 col-sm-12"></div>
 
 
-<form class="navbar-form navbar-left">
-    <div class="form-group">
-      <input type="text" class="form-control" placeholder="Search">
-    </div>
-    <button type="submit" class="btn btn-default">Submit</button>
-</form>
+
+<div class="form-group">
+    <form>
+         <input type="text" class="form-control" placeholder="Search" id="searching">
+        <button id="clickme" type="submit" class="">Submit</button>
+    </form>
+</div>
 
 
 <!-- side menu  -->
@@ -210,6 +211,7 @@
 
 
 <script>
+
 var map = new naver.maps.Map('map', mapOptions);
 var mapOptions = {
     center: new naver.maps.LatLng(37.3595704, 127.105399), //지도의 초기 중심 좌표
@@ -420,11 +422,24 @@ $("#interaction, #tile-transition, #controls").addClass("control-on");
 function onSuccessGeolocation(position) {
     var location = new naver.maps.LatLng(position.coords.latitude,
                                          position.coords.longitude);
+    <% if params[:juso_x] || params[:juso_y] != nil %>
+    location = new naver.maps.LatLng(<%= params[:juso_x] %>,<%= params[:juso_y] %>);
+    <% end %>
 
     map.setCenter(location); // 얻은 좌표를 지도의 중심으로 설정합니다.
     map.setZoom(12); // 지도의 줌 레벨을 변경합니다.
-
 }
+
+    // if(location !== null){
+    // map.setCenter(location); // 얻은 좌표를 지도의 중심으로 설정합니다.
+    // map.setZoom(12); // 지도의 줌 레벨을 변경합니다.
+    // } else{
+    // location = new naver.maps.LatLng(position.coords.latitude,
+    //                                      position.coords.longitude);
+    // map.setCenter(location); // 얻은 좌표를 지도의 중심으로 설정합니다.
+    // map.setZoom(12); // 지도의 줌 레벨을 변경합니다.
+    // }
+// }
 
 function onErrorGeolocation() {
     var center = map.getCenter();
@@ -440,6 +455,20 @@ $(window).on("load", function() {
     }
 });
 
+$("#clickme").click(function(){
+    search_juso = $("#searching").val();
+    $.ajax({
+        method: "POST",
+        url: "/search",
+        data: {'juso' :search_juso},
+        }).done(function() {
+        <% if params[:juso_x] || params[:juso_y] != nil %>
+        var location = new naver.maps.LatLng(<%= params[:juso_x] %>,<%= params[:juso_y] %>);
+        <% end %>
+        map.setCenter(location); // 얻은 좌표를 지도의 중심으로 설정합니다.
+        map.setZoom(12); // 지도의 줌 레벨을 변경합니다.
+    });
+});
 
 
 

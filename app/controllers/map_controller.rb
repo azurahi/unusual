@@ -1,4 +1,7 @@
 class MapController < ApplicationController
+  @@juso_x = nil
+  @@juso_y = nil
+  
   def index
     @barbaries = Barbary.all
   end
@@ -23,11 +26,12 @@ class MapController < ApplicationController
      
     data = JSON.parse(response.body)
      
-    @juso_x = data["result"]["items"][0]["point"]["x"]
-    @juso_y = data["result"]["items"][0]["point"]["y"]
+    @juso_x = data["result"]["items"][0]["point"]["y"]
+    @juso_y = data["result"]["items"][0]["point"]["x"]
+    @juso=1
     
-    redirect_to map_path
-    
+    redirect_to map_path(:juso_x => @juso_x, :juso_y => @juso_y)
+
   end
   
 end
