@@ -72,7 +72,7 @@ naver.maps.Event.addListener(map, 'click', function(e) {
         data: { layername: 'A2SM_CMMNPOI', name: '가로등', style: 'A2SM_CmmnPoi_7' },
         dataType: 'image/png',
         success: function () {
-            alert("data");
+            var wmsLayer = new OpenLayers.Layer.WMS( param.name, param.serverUrl, {layers: ''+param.layername,  styles:param.styles, format: 'image/png',  exceptions:'text/xml', transparent: true}, {isBaseLayer: false});
         },
     });
 

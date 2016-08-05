@@ -17,3 +17,5 @@
 //= require Chart
 //= require jquery.min
 //= require smoothscroll
+//= require classie
+//= require search
