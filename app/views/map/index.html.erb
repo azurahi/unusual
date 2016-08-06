@@ -1,5 +1,5 @@
 <style>
-    .wrap {position: absolute;left: 0;bottom: 40px;width: 288px;height: 132px;margin-left: -144px;text-align: left;overflow: hidden;font-size: 12px;font-family: 'Malgun Gothic', dotum, '돋움', sans-serif;line-height: 1.5;}
+    .wrap {position: absolute;left: 0;bottom: -12px;width: 288px;height: 132px;margin-left: -144px;text-align: left;overflow: hidden;font-size: 12px;font-family: 'Malgun Gothic', dotum, '돋움', sans-serif;line-height: 1.5;}
     .wrap * {padding: 0;margin: 0;}
     .wrap .info {width: 286px;height: 120px;border-radius: 5px;border-bottom: 2px solid #ccc;border-right: 1px solid #ccc;overflow: hidden;background: #fff;}
     .wrap .info:nth-child(1) {border: 0;box-shadow: 0px 1px 2px #888;}
@@ -10,9 +10,10 @@
     .info .desc {position: relative;margin: 13px 0 0 90px;height: 75px;}
     .desc .ellipsis {overflow: hidden;text-overflow: ellipsis;white-space: nowrap;}
     .desc .jibun {font-size: 11px;color: #888;margin-top: -2px;}
-    .info .img {position: absolute;top: 6px;left: 5px;width: 73px;height: 71px;border: 1px solid #ddd;color: #888;overflow: hidden;}
-    .info:after {content: '';position: absolute;margin-left: -12px;left: 50%;bottom: 0;width: 22px;height: 12px;background: url('http://i1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png')}
-    .info .link {color: #5085BB;}
+    .mess{left:10;}
+    /*.info .img {position: absolute;top: 6px;left: 5px;width: 73px;height: 71px;border: 1px solid #ddd;color: #888;overflow: hidden;}*/
+    /*.info:after {content: '';position: absolute;margin-left: -12px;left: 50%;bottom: 0;width: 22px;height: 12px;background: url('http://i1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png')}*/
+    /*.info .link {color: #5085BB;}*/
 </style>
     
 </style>
@@ -29,7 +30,7 @@
     						<li class="menu-item"><a class="smoothScroll" href="/" title="홈으로"><i class="fa fa-home"></i></br>홈으로</a></li>
     						<li class="menu-item"><a class="smoothScroll" href="/map" title="지도보기"><i class="fa fa-map-marker"></i></br>지도보기</a></li>
     						<li class="menu-item"><a class="smoothScroll" href="/new" title="신고하기"><i class="fa fa-pencil"></i></br>제보하기</a></li>
-    						<li class="menu-item"><a class="smoothScroll" href="#contact" title="Contact"><i class="fa fa-lightbulb-o"></i></br>밝은 길</a></li>
+    						<li class="menu-item"><a class="smoothScroll" href="/light" title="Contact"><i class="fa fa-lightbulb-o"></i></br>밝은 길</a></li>
     					</ul><!--/ uL#nav -->
     				</div><!-- /.dropdown -->
     
@@ -84,9 +85,9 @@
                               <ul class="dropdown-menu">
                                 <li><a href="#"><i class="fa fa-pencil fa-fw"></i> <form class="navbar-form navbar-left"  method="post" action="/search">
                                     <div class="form-group">
-                                      <input type="text" class="form-control" placeholder="Search" name="juso">
+                                      <input type="text" class="form-control" placeholder="Search" name="juso"></br></br>
+                                         <button type="submit" class="btn btn-default">주소 찾기</button>
                                     </div>
-                                    <button type="submit" class="btn btn-default">Submit</button>
                                   </form>
                                   </a></li>
                               </ul>
@@ -128,6 +129,8 @@ map.getPanes().floatPane.appendChild(menuLayer[0]);
 var markerList = [];
 var infowindowList =[];
 
+
+
 <% @barbaries.each do |bar| %>
 <% if bar.x||bar.y != nil %>
 
@@ -146,20 +149,12 @@ var infowindowList =[];
             '<div class="wrap">' + 
             '    <div class="info">' + 
             '        <div class="title">' + 
-            '           <%= bar.title %>' + 
-            '            <div class="close" onclick="closeOverlay()" title="닫기"></div>' + 
-            '        </div>' + 
-            '        <div class="body">' + 
-            '            <div class="img">' +
-            '                <img src="http://cfile181.uf.daum.net/image/250649365602043421936D" width="73" height="70">' +
-            '           </div>' + 
-            '            <div class="desc">' + 
-            '                <div class="ellipsis">제주특별자치도 제주시 첨단로 242</div>' + 
-            '                <div class="jibun ellipsis">(우) 63309 (지번) 영평동 2181</div>' + 
-            '                <div><a href="http://www.kakaocorp.com/main" target="_blank" class="link">홈페이지</a></div>' + 
+            '           <h3>제목:<%= bar.title %></h3>' + 
+            '            <div onclick="closeOverlay()" title="닫기"></div>' + 
             '            </div>' + 
-            '        </div>' + 
-            '    </div>' +    
+            '        <div class="body">' +
+            '    <h4>내용:<%= bar.message %></h4>' +
+            '<a href="/change">수정</a><a href="/delete">삭제</a>';+
             '</div>'
         ].join('');
     
@@ -196,6 +191,8 @@ function getClickHandler(seq) {
     }
 }
 
+
+
 for (var i=0, ii=markerList.length; i<ii; i++) {
     naver.maps.Event.addListener(markerList[i], 'click', getClickHandler(i));
 }
@@ -210,6 +207,7 @@ naver.maps.Event.addListener(map, 'rightclick', function(e) {
         top: e.offset.y
     }).html(coordHtml);
 });
+
 
 
 

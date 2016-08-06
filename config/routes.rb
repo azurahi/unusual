@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
-  get 'test/index'
 
+  get '/map' => 'map#index'
   get '/map' => 'map#index'
   get '/new' => 'report#map'
   post '/write' => 'report#write'
@@ -8,7 +8,11 @@ Rails.application.routes.draw do
   get '/test' => 'search#init'
   get '/test1' => 'test#index'
   post '/search' => 'map#search'
-  get '/sear' => 'search#index'
+  get '/light' => 'light#index'
+  post '/dot' => 'light#dot'
+  get '/show' => 'light#show'
+  get '/change' => 'report#change'
+  post '/delete' => 'report#delete'
 
   root 'home#index'
 

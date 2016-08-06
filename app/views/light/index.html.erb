@@ -1,0 +1,199 @@
+<div id="section-topbar" class>
+	<div id="topbar-inner">
+		<div class="container">
+    <div id="section-topbar">
+    	<div id="topbar-inner">
+    		<div class="container">
+    			<div class="row">
+    				<div class="dropdown">
+    					<ul id="nav" class="nav">
+    						<li class="menu-item"><a class="smoothScroll" href="/" title="홈으로"><i class="fa fa-home"></i></br>홈으로</a></li>
+    						<li class="menu-item"><a class="smoothScroll" href="/map" title="지도보기"><i class="fa fa-map-marker"></i></br>지도보기</a></li>
+    						<li class="menu-item"><a class="smoothScroll" href="/new" title="신고하기"><i class="fa fa-pencil"></i></br>제보하기</a></li>
+    						<li class="menu-item"><a class="smoothScroll" href="/light" title="Contact"><i class="fa fa-lightbulb-o"></i></br>밝은 길</a></li>
+    					</ul><!--/ uL#nav -->
+    				</div><!-- /.dropdown -->
+    
+    				<div class="clear"></div>
+    			</div><!--/.row -->
+    		</div><!--/.container -->
+    
+    		<div class="clear"></div>
+    	</div><!--/ #topbar-inner -->
+    </div><!--/ #section-topbar -->
+
+				<div class="clear"></div>
+			</div><!--/.row -->
+		</div><!--/.container -->
+
+		<div class="clear"></div>
+	</div><!--/ #topbar-inner -->
+</div><!--/ #section-topbar -->
+
+<div id="map" class="map_container"></div>
+
+<div id="section-topbar-bt" class="navbar navbar-default navbar-fixed-bottom">
+    	<div id="topbar-inner-bt">
+    		<div class="container">
+    			<div class="row">
+    				<div class="dropdown">
+    				    <!--<form id="search" action="#" method="post">-->
+            <!--                <div id="label"><label for="search-terms" id="search-label">search</label></div>-->
+            <!--                <div id="input"><input type="text" name="search-terms" id="search-terms" placeholder="Enter search terms..."></div>-->
+            <!--            </form>-->
+    					<ul id="nav" class="nav">
+                            <li class="menu-item">
+    					    <div class="btn-group">
+    						  <a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#"><i class="fa fa-search"></i></br>검색하기</a>
+                              <ul class="dropdown-menu">
+                                <li><a href="#"><i class="fa fa-pencil fa-fw"></i> <form class="navbar-form navbar-left"  method="post" action="/search">
+                                    <div class="form-group">
+                                      <input type="text" class="form-control" placeholder="Search" name="juso"></br></br>
+                                         <button type="submit" class="btn btn-default">주소 찾기</button>
+                                    </div>
+                                  </form>
+                                  </form>
+                                  </a></li>
+                              </ul>
+                            </div>
+                            </li>
+    					</ul><!--/ uL#nav -->
+    				</div><!-- /.dropdown -->
+
+				<div class="clear"></div>
+			</div><!--/.row -->
+		</div><!--/.container -->
+
+		<div class="clear"></div>
+	</div><!--/ #topbar-inner -->
+</div><!--/ #section-topbar -->
+
+<script>
+    var map = new naver.maps.Map('map', mapOptions);
+    var mapOptions = {
+        center: new naver.maps.LatLng(37.5072175 , 127.0459756), //지도의 초기 중심 좌표
+        zoom: 12, //지도의 초기 줌 레벨
+        minZoom: 1, //지도의 최소 줌 레벨
+        zoomControlOptions: { //줌 컨트롤의 옵션
+        position: naver.maps.Position.TOP_RIGHT
+    }};
+    
+<% @lamps.each do |l| %>
+    <% if l.x || l.y != nil %>
+
+var marker = new naver.maps.Marker({
+    position: new naver.maps.LatLng(<%= l.x %>,<%= l.y %>),
+    map: map
+    });
+    <% end %>
+<% end %> 
+
+    
+function get_to_url(path, params, method) {
+    method = method || "get"; // Set method to post by default if not specified.
+
+    // The rest of this code assumes you are not using a library.
+    // It can be made less wordy if you use one.
+    var form = document.createElement("form");
+    form.setAttribute("method", method);
+    form.setAttribute("action", path);
+
+    for(var key in params) {
+        if(params.hasOwnProperty(key)) {
+            var hiddenField = document.createElement("input");
+            hiddenField.setAttribute("type", "hidden");
+            hiddenField.setAttribute("name", key);
+            hiddenField.setAttribute("value", params[key]);
+
+            form.appendChild(hiddenField);
+         }
+    }
+
+    document.body.appendChild(form);
+    form.submit();
+}
+
+function post_to_url(path, params, method) {
+    method = method || "post"; // Set method to post by default if not specified.
+
+    // The rest of this code assumes you are not using a library.
+    // It can be made less wordy if you use one.
+    var form = document.createElement("form");
+    form.setAttribute("method", method);
+    form.setAttribute("action", path);
+
+    for(var key in params) {
+        if(params.hasOwnProperty(key)) {
+            var hiddenField = document.createElement("input");
+            hiddenField.setAttribute("type", "hidden");
+            hiddenField.setAttribute("name", key);
+            hiddenField.setAttribute("value", params[key]);
+
+            form.appendChild(hiddenField);
+         }
+    }
+
+    document.body.appendChild(form);
+    form.submit();
+}
+
+// naver.maps.Event.addListener(map, 'click', function(e) {
+//     post_to_url('/dot', {input_x_light : e.coord.y, input_y_light : e.coord.x});
+// });
+
+naver.maps.Event.addListener(map, 'rightclick', function(e) {
+    var coordHtml = 'Coord: '+ e.coord +'<br />Point: '+ e.point +'<br />Offset: '+ e.offset;
+
+    menuLayer.show().css({
+        left: e.offset.x,
+        top: e.offset.y
+    }).html(coordHtml);
+});
+
+
+function onSuccessGeolocation(position) {
+    var location = new naver.maps.LatLng(position.coords.latitude,
+                                         position.coords.longitude);
+
+    map.setCenter(location); // 얻은 좌표를 지도의 중심으로 설정합니다.
+    map.setZoom(12); // 지도의 줌 레벨을 변경합니다.
+
+    // if(location !== null){
+    // map.setCenter(location); // 얻은 좌표를 지도의 중심으로 설정합니다.
+    // map.setZoom(12); // 지도의 줌 레벨을 변경합니다.
+    // } else{
+    // location = new naver.maps.LatLng(position.coords.latitude,
+    //                                      position.coords.longitude);
+    // map.setCenter(location); // 얻은 좌표를 지도의 중심으로 설정합니다.
+    // map.setZoom(12); // 지도의 줌 레벨을 변경합니다.
+    // }
+}
+
+
+function onErrorGeolocation() {
+    var center = map.getCenter();
+
+}
+
+$(window).on("load", function() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(onSuccessGeolocation, onErrorGeolocation);
+    } else {
+        var center = map.getCenter();
+
+    }
+});
+
+naver.maps.Event.addListener(map, 'click', function(a) {
+    naver.maps.Event.addListener(map, 'click', function(e) {
+        var det_point_x = e.coord.y;
+        var det_point_y = e.coord.x;
+        var sta_point_x = a.coord.y;
+        var sta_point_y = a.coord.x;
+        
+        get_to_url('/show', {st_x: sta_point_x, st_y: sta_point_y, dt_x: det_point_x, dt_y: det_point_y  });
+    });
+        
+});
+
+</script>
