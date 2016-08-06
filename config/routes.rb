@@ -5,7 +5,8 @@ Rails.application.routes.draw do
   get '/new' => 'report#map'
   post '/write' => 'report#write'
   post '/report' => 'report#index'
-  get '/test' => 'test#index'
+  get '/test' => 'search#init'
+  get '/test1' => 'test#index'
   post '/search' => 'map#search'
   get '/sear' => 'search#index'
 

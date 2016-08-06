@@ -36,9 +36,6 @@
     					    <li class="menu-item">
     					    <div class="btn-group">
     						  <a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#"><i class="fa fa-clock-o"></i></br>시간별</a>
-                              <!--<a class="btn btn-primary "  href="#">-->
-                              <!--  <span class="fa fa-caret-down" title="Toggle dropdown menu"></span>-->
-                              <!--</a>-->
                               <ul class="dropdown-menu">
                                 <li><a href="#"><i class="fa fa-pencil fa-fw"></i> Edit</a></li>
                                 <li><a href="#"><i class="fa fa-trash-o fa-fw"></i> Delete</a></li>
@@ -49,19 +46,27 @@
                             <li class="menu-item">
     					    <div class="btn-group">
     						  <a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#"><i class="fa fa-universal-access"></i></br>유형별</a>
-                              <!--<a class="btn btn-primary "  href="#">-->
-                              <!--  <span class="fa fa-caret-down" title="Toggle dropdown menu"></span>-->
-                              <!--</a>-->
                               <ul class="dropdown-menu">
                                 <li><a href="#"><i class="fa fa-pencil fa-fw"></i> Edit</a></li>
                                 <li><a href="#"><i class="fa fa-trash-o fa-fw"></i> Delete</a></li>
                                 <li><a href="#"><i class="fa fa-ban fa-fw"></i> Ban</a></li>
-                                <li class="divider"></li>
-                                <li><a href="#"><i class="fa fa-unlock"></i> Make admin</a></li>
                               </ul>
                             </div>
                             </li>
-    						<li class="menu-item"><a class="smoothScroll" href="#contact" title="Contact"><i class="fa fa-lightbulb-o"></i></br>밝은 길</a></li>
+                            <li class="menu-item">
+    					    <div class="btn-group">
+    						  <a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#"><i class="fa fa-search"></i></br>검색하기</a>
+                              <ul class="dropdown-menu">
+                                <li><a href="#"><i class="fa fa-pencil fa-fw"></i> <form class="navbar-form navbar-left"  method="post" action="/search">
+                                    <div class="form-group">
+                                      <input type="text" class="form-control" placeholder="Search" name="juso">
+                                    </div>
+                                    <button type="submit" class="btn btn-default">Submit</button>
+                                  </form>
+                                  </a></li>
+                              </ul>
+                            </div>
+                            </li>
     					</ul><!--/ uL#nav -->
     				</div><!-- /.dropdown -->
 

@@ -19,3 +19,4 @@
 //= require smoothscroll
 //= require classie
 //= require search
+//= require openlayers-rails
