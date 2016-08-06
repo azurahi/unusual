@@ -34,4 +34,10 @@ class MapController < ApplicationController
 
   end
   
+  def specify
+    @barbary = Barbary.where(:crime => params[:criminal])
+    
+
+  end
+  
 end

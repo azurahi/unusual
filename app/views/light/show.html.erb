@@ -77,19 +77,77 @@ var map = new naver.maps.Map('map', mapOptions);
         position: naver.maps.Position.TOP_RIGHT
 }};
 
-var polyline = new naver.maps.Polyline({
-    map: map,
-    path: [
-        new naver.maps.LatLng(<%= @stx %>,<%= @sty %>),
-        <% @lam.each do |l| %>
-        new naver.maps.LatLng(<%= l.x %>, <%= l.y %>),
+    <% if @stx < @dtx && @sty < @dty %>
+              var polyline = new naver.maps.Polyline({
+            map: map,
+              path : [
+                new naver.maps.LatLng(<%= @stx %>,<%= @sty %>),
+              new naver.maps.LatLng(37.5025141,127.0428068), //-> 역삼
+              new naver.maps.LatLng(37.5058518,127.0411572),
+              new naver.maps.LatLng(37.5068305,127.0401838),
+              new naver.maps.LatLng(37.5077252,127.0431314),
+              new naver.maps.LatLng(37.508241,127.0436431),
+              new naver.maps.LatLng(37.5088796,127.0432997),
+              new naver.maps.LatLng(37.50919,127.0443162),
+              new naver.maps.LatLng(37.5101978,127.0438688), // -> 선정릉역
+              new naver.maps.LatLng(<%= @dtx %>,<%= @dty %>)
+             ],
+             strokeWeight: 5,
+             strokeColor: '#E51D1A'
+              });  
+    <% elsif  @stx > @dtx && @sty < @dty %>
+     var polyline = new naver.maps.Polyline({
+        map: map,
+        path: [
+              new naver.maps.LatLng(<%= @stx %>,<%= @sty %>),
+            new naver.maps.LatLng(37.5086085,127.0384757),
+            new naver.maps.LatLng(37.5068305,127.0401838),
+            new naver.maps.LatLng(37.5077252,127.0431314),
+            new naver.maps.LatLng(37.5051336,127.047278),
+            new naver.maps.LatLng(37.5055554,127.0484623),
+            new naver.maps.LatLng(37.5044489,127.0490234),
+            new naver.maps.LatLng(<%= @dtx %>,<%= @dty %>)
+            ],
+            strokeWeight: 5,
+            strokeColor: '#E51D1A'
+     });   
+    <% elsif  @stx < @dtx && @sty > @dty %>
+           var polyline = new naver.maps.Polyline({
+        map: map,
+        path:  [
+                new naver.maps.LatLng(<%= @stx %>,<%= @sty %>),
+              new naver.maps.LatLng(37.5044489,127.0490234), //-> 선릉역
+              new naver.maps.LatLng(37.5055554,127.0484623),
+              new naver.maps.LatLng(37.5051336,127.047278),
+              new naver.maps.LatLng(37.5077252,127.0431314),
+              new naver.maps.LatLng(37.5068305,127.0401838),
+              new naver.maps.LatLng(37.5086085,127.0384757),	//-> 언주역
+            new naver.maps.LatLng(<%= @dtx %>,<%= @dty %>)
+            ],
+            strokeWeight: 5,
+            strokeColor: '#E51D1A'
+           });    
+    <% else %>
+    var polyline = new naver.maps.Polyline({
+        map: map,
+        path:[
+            new naver.maps.LatLng(<%= @stx %>,<%= @sty %>),
+            new naver.maps.LatLng(37.5101978,127.0438688),
+            new naver.maps.LatLng(37.50919,127.0443162),
+              new naver.maps.LatLng(37.5088796,127.0432997),
+              new naver.maps.LatLng(37.508241,127.0436431),
+            new naver.maps.LatLng(37.5077252,127.0431314),
+              new naver.maps.LatLng(37.5068305,127.0401838),
+              new naver.maps.LatLng(37.5058518,127.0411572),
+              new naver.maps.LatLng(37.5025141,127.0428068),
+              new naver.maps.LatLng(<%= @dtx %>,<%= @dty %>)
+             ],
+             strokeWeight: 5,
+             strokeColor: '#E51D1A'
+    });     
         <% end %>
-        new naver.maps.LatLng(<%= @dtx %>,<%= @dty %>)
-    ]
-});
     
-
-    
+     
 function post_to_url(path, params, method) {
     method = method || "post"; // Set method to post by default if not specified.
 

@@ -1,0 +1,76 @@
+<div id="wrap">
+
+<div class="container">
+    <div id="section-topbar">
+    	<div id="topbar-inner">
+    		<div class="container">
+    			<div class="row">
+    				<div class="dropdown">
+    					<ul id="nav" class="nav">
+    						<li class="menu-item"><a class="smoothScroll" href="/" title="홈으로"><i class="fa fa-home"></i></br>홈으로</a></li>
+    						<li class="menu-item"><a class="smoothScroll" href="/map" title="지도보기"><i class="fa fa-map-marker"></i></br>지도보기</a></li>
+    						<li class="menu-item"><a class="smoothScroll" href="/new" title="신고하기"><i class="fa fa-pencil"></i></br>제보하기</a></li>
+    						<li class="menu-item"><a class="smoothScroll" href="/light" title="Contact"><i class="fa fa-lightbulb-o"></i></br>밝은 길</a></li>
+    					</ul><!--/ uL#nav -->
+    				</div><!-- /.dropdown -->
+    
+    				<div class="clear"></div>
+    			</div><!--/.row -->
+    		</div><!--/.container -->
+    
+    		<div class="clear"></div>
+    	</div><!--/ #topbar-inner -->
+    </div><!--/ #section-topbar -->
+    </div>
+     
+  </div>
+<!-- Top content -->
+<div class="top-content">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12 form-box">
+                	<div class="form-top">
+                		<div class="form-top-left" >
+                			<h3>제보를 받습니다!</h3>
+                    		<p>이 정보들은 익명성이 보장됩니다. </p>
+                		</div>
+                		<div class="form-top-right">
+                			<i class="fa fa-user-secret"></i>
+                		</div>
+                    </div>
+                    <div class="form-bottom">
+	                    <form role="form" action="/write" method="post" class="registration-form">
+	                        <div>
+	                        <div class="form-group">
+	                            <label class="sr-only" for="form-select">범죄 유형</label>
+    	                        <select class="form-control" name="input_crime" value="<%= @data.crime %>">
+                                  <option value="1">바바리맨 신고</option>
+                                  <option value="2">퍽치기 신고</option>
+                                  <option value="3">소매치기 신고</option>
+                                  <option value="4">기타 신고</option>
+                                </select>
+                            </div>
+	                    	<div class="form-group">
+	                    		<label class="sr-only" for="form-first-name">제보 제목</label>
+	                        	<input type="text" name="input_title" value="<%= @data.title %>" class="form-first-name form-control">
+	                        </div>
+	                        <div class="form-group">
+	                        	<label class="sr-only" for="form-last-name">상세 정보</label>
+	                        	<textarea class="form-control" type="text" name="input_message" class="form-last-name form-control" id="input_message"><%= @data.message %></textarea>
+	                        </div>
+	                        <div class="form-group">
+	                        	<label class="sr-only" for="form-password" val="<%= @data.password %>">비밀번호</label>
+	                        	<input type="password" name="input_password" placeholder="비밀번호" class="form-control">
+	                        </div>
+	                        <button type="submit" class="btn">수정하기</button>
+	                        </div>
+	                    </form>
+	                     <form role="form" action="/delete" method="POST">
+	                     	<input type="hidden" name="data" value="<%= @data.id %>"  class="form-control">
+	                     	<button type="submit" class="btn">삭제하기</button>
+	                    </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+</div>

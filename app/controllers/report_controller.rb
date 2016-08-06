@@ -18,5 +18,14 @@ class ReportController < ApplicationController
     redirect_to map_path(@barbar), 
       :notice => "제보 감사합니다"
   end
+  
+  def change
+    @data = Barbary.find(params[:cont_c])
+  end
+  
+  def delete
+    Barbary.find(params[:data]).destroy
+    redirect_to map_path
+  end
 
 end

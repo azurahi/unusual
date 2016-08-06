@@ -13,10 +13,12 @@ Rails.application.routes.draw do
   get '/show' => 'light#show'
   get '/change' => 'report#change'
   post '/delete' => 'report#delete'
-
+  post '/specify' => "map#specify"
+  
   root 'home#index'
 
   devise_for :users
+
   # root 'home#index'
 
   # The priority is based upon order of creation: first created -> highest priority.
